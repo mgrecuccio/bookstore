@@ -23,9 +23,11 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <form action="{% url 'logout' %}" method="post">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit">Log Out</button>
+                            <button type="submit" class="nav-link" style="text-decoration: none;">
+                                Logout
+                            </button>
                         </form>
                     </li>
                 {% else %}
