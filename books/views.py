@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
@@ -7,14 +8,21 @@ from books.models import Book
 
 
 # Create your views here.
-class BookListView(ListView):
+class BookListView(LoginRequiredMixin, ListView):
     model = Book
     template_name = "books/book_list.html"
     context_object_name = "book_list"
+    login_url = "account_login"
 
 
-class BookDetailView(DetailView):
+class BookDetailView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    DetailView,
+):
     context_object_name = "book"
+    login_url = "account_login"
+    permission_required = "books.special_status"
 
     def get(self, request, *args, **kwargs):
         view = ReviewGet.as_view()
