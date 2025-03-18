@@ -87,7 +87,8 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
+    "default": env.dj_db_url("DATABASE_URL",
+                             default="postgres://postgres@db/postgres")
 }
 
 
@@ -158,3 +159,6 @@ AUTHENTICATION_BACKENDS = (
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DEFAULT_FROM_EMAIL = "admin@mgrtech.eu"
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
