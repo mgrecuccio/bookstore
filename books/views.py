@@ -61,3 +61,13 @@ class ReviewPost(SingleObjectMixin, FormView):
     def get_success_url(self):
         book = self.object
         return reverse("book_detail", kwargs={"pk": book.pk})
+
+
+class SearchResultListView(ListView):
+    model=Book
+    context_object_name="book_list"
+    template_name = "books/search_result.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        return Book.objects.filter(title__icontains=query)
