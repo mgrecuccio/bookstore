@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
 
@@ -14,7 +15,7 @@ class BookListView(LoginRequiredMixin, ListView):
     context_object_name = "book_list"
     login_url = "account_login"
 
-
+#
 class BookDetailView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
@@ -23,6 +24,7 @@ class BookDetailView(
     context_object_name = "book"
     login_url = "account_login"
     permission_required = "books.special_status"
+    queryset = Book.objects.all().prefetch_related('reviews__author',)
 
     def get(self, request, *args, **kwargs):
         view = ReviewGet.as_view()
